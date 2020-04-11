@@ -1,7 +1,14 @@
 CC ?= g++
 TARGET ?= /usr/local
-OPTIMIZATIONS = -O4 -flto -fno-fat-lto-objects -march=native -Ofast
-CFLAGS := $(OPTIMIZATIONS) -std=gnu18 -Wno-unused-result -Wall -Wextra -pedantic
+
+GTK_CFLAGS != pkg-config --cflags gtk+-3.0
+GTK_LIBS != pkg-config --libs gtk+-3.0
+
+OPTIMIZATIONS := -O4 -flto -fno-fat-lto-objects -march=native -Ofast
+COMMON_FLAGS := $(OPTIMIZATIONS) -std=gnu18 -Wno-unused-result -Wall -Wextra -pedantic
+
+CFLAGS := $(COMMON_FLAGS) $(GTK_CFLAGS)
+LIBS := $(COMMON_FLAGS) $(GTK_LIBS)
 
 PROG := my_program
 
@@ -19,7 +26,7 @@ all: $(PROG)
 
 $(PROG): $(objects)
 	@echo -e "\tLD\t" $(PROG)
-	@$(CC) $(CFLAGS) -o $(PROG) $(objects)
+	@$(CC) $(LIBS) -o $(PROG) $(objects)
 
 clean:
 	@echo -e "\tRM\t" *.o $(PROG)

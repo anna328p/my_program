@@ -1,4 +1,4 @@
-{ stdenv }:
+{ stdenv, gtk3, pkgconfig }:
 
 stdenv.mkDerivation {
   pname = "my_program";
@@ -8,5 +8,6 @@ stdenv.mkDerivation {
 
   preInstall = "export TARGET=$out";
 
-  nativeBuildInputs = [ stdenv ];
+  nativeBuildInputs = [ stdenv pkgconfig ];
+  buildInputs = [ gtk3 ];
 }
